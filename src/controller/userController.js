@@ -48,7 +48,7 @@ const login = async function(req, res) {
             UserId: checkUser._id,
             batch: "Uranium"
 
-        }, 'FunctionUp Group21', { expiresIn: '86400s' }); // token expiry for 24hrs
+        }, 'Assesment', { expiresIn: '86400s' }); // token expiry for 24hrs
 
         return res.status(200).send({ status: true, message: "User login successfull", data: { userId: checkUser._id, token: userToken } });
     } catch (err) {

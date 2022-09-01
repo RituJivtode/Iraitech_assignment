@@ -26,7 +26,7 @@ const profileSchema = new mongoose.Schema({
 
  profileImage : {
     type :String,
-    required : true
+    // required : true
 }
 })
 module.exports = mongoose.model("Profiles", profileSchema);

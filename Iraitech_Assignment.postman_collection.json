@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "6c391539-623f-41e7-896c-7aac6432d4cd",
+		"name": "Iraitech_Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20491503"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"shreyaSingh@gmail.com\",\r\n    \"password\":\"singhShreya@01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ritujivtode@gmail.com\",\r\n    \"password\":\"Ritujiv@01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getList",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/getList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profileImage",
+							"type": "file",
+							"src": "/C:/Users/Jivtode's/Pictures/Capture1.PNG"
+						},
+						{
+							"key": "userId",
+							"value": "6310cbb62ca70ebf59b692fd",
+							"type": "text"
+						},
+						{
+							"key": "firstName",
+							"value": "Ritu",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "Jivtode",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Nagpur",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/userProfile",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"userProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editProfile",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2MzEwY2JiNjJjYTcwZWJmNTliNjkyZmQiLCJiYXRjaCI6IlVyYW5pdW0iLCJpYXQiOjE2NjIwNTYyNjAsImV4cCI6MTY2MjE0MjY2MH0.tB0jhrI-3Rsb8x2SzBThq7_bDtJHx3vDdI9mEFXNq7U",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profileImage",
+							"type": "file",
+							"src": "/C:/Users/Jivtode's/Pictures/Capture2.PNG"
+						},
+						{
+							"key": "userId",
+							"value": "6310cbb62ca70ebf59b692fd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "firstName",
+							"value": "Ritu",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "lastName",
+							"value": "Jivtode",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "Nagpur",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/editProfile/6310cbb62ca70ebf59b692fd",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"editProfile",
+						"6310cbb62ca70ebf59b692fd"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -7,10 +7,8 @@ const auth = function (req, res, next) {
         if(typeof token === "undefined"){
             return res.status(400).send({status: false, message:"Please Enter token"})
         }
-        const bearer = token.split(" ");
-        const bearerToken = bearer[1]
-    
-        jwt.verify(bearerToken,'Assesment',function (err, data) {
+        
+        jwt.verify(token,'Assesment',function (err, data) {
         if(err){
             return res.status(401).send({ status: false, message: err.message})
         }else{

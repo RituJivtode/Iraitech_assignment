@@ -36,6 +36,11 @@ const userProfile = async function(req, res) {
         if (!isUserPresent) {
             return res.status(404).send({ status: false, messsage: `User not found by this user id ${userId}` })
         }
+        const alreadyPresent = await userProfileModel.findOne({ userId: userId})
+        if (alreadyPresent) {
+            return res.status(400).send({ status: false, messsage: ` ${userId} already present` })
+        }
+
 
         if (!validator.isValid(firstName)) {
             return res.status(400).send({ status: false, msg: "fullastName is required" })
@@ -53,7 +58,7 @@ const userProfile = async function(req, res) {
         let ProfileData = { userId : userId, firstName: firstName, lastName: lastName, city: city}
         ProfileData.profileImage = profilePicUrl
          const createProfile = await userProfileModel.create(ProfileData)
-        return res.status(201).send({ data: createProfile }, { staus: "Profile Data Created" })
+        return res.status(201).send({ data: createProfile ,  status: "Profile Data Created" })
     } catch (err) {
         return res.status(500).send({ status: false, message: err.message })
 
@@ -62,6 +67,7 @@ const userProfile = async function(req, res) {
 
 const getList = async function(req,res){
     try{
+
         const Userlist = await userProfileModel.find()
         if(!Userlist){
             return res.status(404).send({ status: false, message: 'user details not present' });
@@ -81,7 +87,7 @@ catch (error) {
 const editProfile = async function(req,res){
     try{
          let files = req.files;
-         let _id=req.params.id;
+         let _id=req.params.userId;
          let body= req.body;
          if (Object.keys(body).length === 0 && req.files.length==0) {
             return res.status(400).send({ Status: false, message: " Sorry Body can't be empty" })
@@ -95,40 +101,11 @@ const editProfile = async function(req,res){
 
             var profilePicUrl = await aws.uploadFile(files[0]);
         } 
-const {firstName, lastName, city} = body
-let filterBody={};
-
-if ("firstName" in body) {
-    if (!validator.isValid(firstName)) {
-        return res.status(400).send({ status: false, message: ' firstName Required' });
-    }
-
-    filterBody["firstName"] = firstName
-
-}
-
-if ("lastName" in body) {
-
-    if (!validator.isValid(lastName)) {
-        return res.status(400).send({ status: false, message: ' lastName Required' });
-    }
-    filterBody["lastName"] = lastName
-
-}
-
-if ("city" in body) {
-    if (!validator.isValid(city)) {
-        return res.status(400).send({ status: false, message: ' city Required' });
-    }
-    
-    filterBody["city"] = city
-
-}
-
-filterBody.profileImage=profilePicUrl;
+ //const {firstName, lastName, city} = body
+//let filterBody={};
 
 
-let updatedUser = await userProfileModel.findOne({_id:req.params.id},{$set:filterBody},{new:true})
+let updatedUser = await userProfileModel.findOneAndUpdate({userId:req.params.userId},{$set:{profileImage:profilePicUrl}},{new:true})
 if(!updatedUser){
     return res.status(404).send({status:false,message:"User not found"})
 }
