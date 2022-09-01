@@ -8,8 +8,10 @@ router.post("/login", userController.login)
 
 router.post("/signup", userController.signup)
 
-router.get("/getList", userProfileController.getList)
+router.post("/userProfile", userProfileController.userProfile)
 
+router.get("/getList", userProfileController.getList)
+//router.get("/editProfile", userProfileController.editProfile)
 router.put("/editProfile", mid.auth, userProfileController.editProfile)
 
 

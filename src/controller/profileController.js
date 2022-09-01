@@ -4,6 +4,7 @@ const validator = require("../middleware/validation")
 const aws = require("../middleware/aws")
 const {uploadFile} = require("../middleware/aws")
 const mongoose = require("mongoose")
+
 const isValidObjectId = function(objectId) {
     return mongoose.Types.ObjectId.isValid(objectId)
 }
@@ -24,8 +25,17 @@ const userProfile = async function(req, res) {
         }
 
 
-        const { firstName, lastName, city } = body
+        const { userId, firstName, lastName, city } = body
         // body.profileImage= profilePicUrl
+
+        if (!isValidObjectId(userId)) {
+            return res.status(400).send({ status: false, messsage: "plzz enter valid userId" })
+        }
+
+        const isUserPresent = await userModel.findOne({ _id: userId})
+        if (!isUserPresent) {
+            return res.status(404).send({ status: false, messsage: `User not found by this user id ${userId}` })
+        }
 
         if (!validator.isValid(firstName)) {
             return res.status(400).send({ status: false, msg: "fullastName is required" })
@@ -40,12 +50,12 @@ const userProfile = async function(req, res) {
 
         
 
-        let ProfileData = { firstName: firstName, lastName: lastName, city: city}
+        let ProfileData = { userId : userId, firstName: firstName, lastName: lastName, city: city}
         ProfileData.profileImage = profilePicUrl
          const createProfile = await userProfileModel.create(ProfileData)
         return res.status(201).send({ data: createProfile }, { staus: "Profile Data Created" })
     } catch (err) {
-        return res.status(500).send({ status: false, message: error.message })
+        return res.status(500).send({ status: false, message: err.message })
 
     }
 }
@@ -56,7 +66,7 @@ const getList = async function(req,res){
         if(!Userlist){
             return res.status(404).send({ status: false, message: 'user details not present' });
         }
-       return res.status(200).send({status:true,message:"list of users",data:list})
+       return res.status(200).send({status:true, message:"list of users", data:Userlist})
     
 }
 catch (error) {
@@ -89,7 +99,7 @@ const {firstName, lastName, city} = body
 let filterBody={};
 
 if ("firstName" in body) {
-    if (!isValid(firstName)) {
+    if (!validator.isValid(firstName)) {
         return res.status(400).send({ status: false, message: ' firstName Required' });
     }
 
@@ -99,7 +109,7 @@ if ("firstName" in body) {
 
 if ("lastName" in body) {
 
-    if (!isValid(lastName)) {
+    if (!validator.isValid(lastName)) {
         return res.status(400).send({ status: false, message: ' lastName Required' });
     }
     filterBody["lastName"] = lastName
@@ -107,7 +117,7 @@ if ("lastName" in body) {
 }
 
 if ("city" in body) {
-    if (!isValid(city)) {
+    if (!validator.isValid(city)) {
         return res.status(400).send({ status: false, message: ' city Required' });
     }
     
@@ -122,7 +132,8 @@ let updatedUser = await userProfileModel.findOne({_id:req.params.id},{$set:filte
 if(!updatedUser){
     return res.status(404).send({status:false,message:"User not found"})
 }
-return res.status(200).send({status:true,message:"User details updated", data:updatedUser})
+
+return res.status(200).send({status:true, message:"User details updated", data:updatedUser})
 
 }
         
@@ -131,9 +142,6 @@ catch (error) {
 
 }
 }
-
-
-
 
 
 module.exports = { userProfile, getList, editProfile }

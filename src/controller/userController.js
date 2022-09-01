@@ -38,7 +38,7 @@ const login = async function(req, res) {
             return res.status(401).send({ Status: false, message: "email is not correct" });
         }
 
-        let passwordMatch = await bcrypt.compare(body.password, checkUser.password)
+        let passwordMatch = await userModel.findOne({password:body.password})
         if (!passwordMatch) {
             return res.status(401).send({ status: false, msg: "incorect password" })
         }
@@ -60,7 +60,7 @@ const login = async function(req, res) {
 
 const signup = async function(req, res) {
     try {
-
+let body = req.body
         const { email, password } = body
        
         // Email is Mandatory...
@@ -92,9 +92,9 @@ const signup = async function(req, res) {
 
         let registerBody = { email: email, password: password}
          const register = await userModel.create(registerBody)
-        return res.status(201).send({ data: register }, { staus: "User Registered" })
+        return res.status(201).send({ data: register , message: "User Registered" })
     } catch (err) {
-        return res.status(500).send({ status: false, message: error.message })
+        return res.status(500).send({ status: false, message: err.message })
 
     }
 }

@@ -11,4 +11,4 @@ const isValid = function(value) {
 
 }
 
-module.exports.isValid = isValid;
+module.exports.isValid = isValid
